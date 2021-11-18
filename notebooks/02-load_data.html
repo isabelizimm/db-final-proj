@@ -1,0 +1,791 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Load data &#8212; GitHub-MySQL database</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Create the database" href="01-ddl.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">GitHub-MySQL database</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   db-final-proj
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting started
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="01-ddl.html">
+   Create the database
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Load data
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/02-load_data.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/isabelizimm/db-final-proj/main?urlpath=lab/tree/notebooks/02-load_data.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Load data
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#get-data">
+   Get data
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="load-data">
+<h1>Load data<a class="headerlink" href="#load-data" title="Permalink to this headline">¶</a></h1>
+<p>Since we closed the connection to our database in the <a class="reference internal" href="01-ddl.html"><span class="doc std std-doc">first notebook</span></a>, we will first start by creating this connection again</p>
+<p>To reproduce this step locally, you will need to generate a GitHub personal access token. Find a tutorial on how to do this <a class="reference external" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token">here</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">mysql.connector</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">github</span> <span class="kn">import</span> <span class="n">Github</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mysql_user</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MYSQL_USER&quot;</span><span class="p">)</span>
+<span class="n">mysql_pass</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;MYSQL_PASS&quot;</span><span class="p">)</span>
+<span class="n">gh_token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GH_TOKEN&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cnx</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">mysql_user</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">mysql_pass</span><span class="p">,</span>
+                              <span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span>
+                              <span class="n">database</span><span class="o">=</span><span class="s1">&#39;final_proj&#39;</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">Github</span><span class="p">(</span><span class="n">gh_token</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="get-data">
+<h1>Get data<a class="headerlink" href="#get-data" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">repo</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span><span class="o">.</span><span class="n">get_repos</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>aicoe-newsletter
+ai-ci
+AI-Stacks-pipeline
+aicoe-cd
+aicoe-ci
+aicoe-sre
+anomaly-detection-demo-app
+Awesome-Data-Science-with-Python
+benchmarks-tekton
+clai
+common
+content-pipeline
+data-driven-development
+disk-failure-prediction
+donkeycar
+edge-tekton-model
+edge-tekton-pipeline
+elyra-aidevsecops-tutorial
+EthicalML-awesome-production-machine-learning
+experiment-tracking
+experiment-tracking-template
+frauddetection-producer-consumer
+idh-manifests
+inference
+inference_results_v0.5
+instrumented-app-go
+instrumented-app-prometheus
+internal-data-hub
+jpegio
+jupyter-notebooks
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>jupyterhub-operator
+kubectl-container
+kubeflow
+learn-katacoda
+log-anomaly-detector
+ludus
+manage-dependencies-tutorial
+matmul-pipeline-cpu
+matmul-pipeline-gpu
+meteor
+meteor-operator
+mlflow-tracking-operator
+mlperf-inference-tekton-pipeline
+mlperf-tekton
+mlperf-training
+mlperf_metric_collection
+okr
+olm-testing-example
+olm-testing-example-fork
+OpenShiftKubeAudit
+openshift_kubeflow_workshop
+overlays-for-ai-pipeline-tutorial
+peak
+peak-fork
+pl-tensorflowapp
+pricingnbs
+prometheus-anomaly-detector
+prometheus-anomaly-detector-legacy
+prometheus-api-client-python
+prometheus-data-science
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>prometheus-flatliner
+prometheus-influx
+prometheus-lts
+prometheus-remote-storage-adapter
+prometheus-scraper
+pyIFD
+pytorch-lda2vec
+receive-feedback-on-deployment-tutorial
+recommend-base-image-tutorial
+repartitioning-sosreports
+repository-knowledge-refresh-job
+robo-doc
+s2i-custom-notebook
+safety-db
+sefkhet-abwy
+seraph
+sesheta
+starburst-test
+stats-to-serverless-on-OpenShift4
+summit-2021-octo-keynote
+tensorflow-serving-s2i
+tensorflow-wheels
+tf-in-container
+tf-serving-in-container
+thanos-openshift
+ultrahook
+v0.6_mlperf_training_DellC4140
+Varangian
+workshop-coding-best-practices
+workshop-intern-bootcamp-git
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ai-enablement-initiative
+ansible-automation-analytics
+auto-faq
+categorical-encoding
+categorical-encoding-internal
+ceph-data-drive-failure
+ceph_drive_failure
+cja-topic-modeling
+cloud-price-analysis
+cloud-price-analysis-public
+common
+configuration-files-analysis
+cookiecutter-aicoe-ds
+cookiecutter-data-science
+cpaas-automated-failure-analysis
+data-science-workflow-examples
+data-science-workflows
+disk-health-predictor
+fedora-mailing-list-analysis
+flake-qe
+github-labeler
+HTM-applications
+insights-configuration-files-analysis
+insights-drift-analysis-baselines
+insights-grokket
+insights-invocation-hints
+insights-sap-analysis
+mailing-list-analysis-toolkit
+meteor-demo
+ocp-alert-prediction
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ocp-alert-prediction-public
+ocp-ci-analysis
+ocp4-anomaly-detection-internal
+openshift-anomaly-detection
+openshift-sme-mailing-list-analysis
+openshift-workload-fingerprinting
+operate-first-data-science-community
+operate-first-jupyterhub-analysis
+operate-first-openshift-data
+performance-qe
+pet-image-detection
+project-template
+ri-optimization
+sentiment-analysis-demo
+sentiment-analysis-public
+sync-pipelines
+sync-pipelines-private
+time-series
+vulnerability-analysis
+wine_reviews_data_analysis
+DMTM_FA2020
+kaggle-competition-isabelizimm
+Fall2021
+aicoe-ci
+aicoe-newsletter
+alibi
+apps
+augur-community-reports
+brunch-invite
+ceph_drive_failure
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>community
+content-pipeline
+db-final-proj
+disk-health-predictor
+edge-anomaly-detection
+elyra-aidevsecops-tutorial
+fa21organization
+flpoly_DS_2020
+h4d-flpoly-dsba
+hai-project
+hai-project-in-r
+hitchhikers-guide
+iml
+isabelizimm
+isabelizimm.github.io
+mailing-list-analysis-toolkit
+mapreduce-text-mining
+meteor
+meteor-demo
+minima
+ocp-ci-analysis
+openshift-ml-workflows-workshop
+operate-first-twitter
+operate-first.github.io
+pet-image-detection
+pipeline-testing
+postgresql-container
+sandiego
+scholars-template
+simple-model-s2i
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>site
+SRE
+time-series
+stats_learning_project
+opendatapolicing
+opendatapolicing-ansible
+opendatapolicing-static
+alertmanager-github-receiver
+alerts
+apps
+argocd-apps
+blueprint
+common
+community
+community-handbook
+continuous-delivery
+continuous-deployment
+curator
+espresso-series
+example-acm-install
+hetzner-baremetal-openshift
+hitchhikers-guide
+installplan-operator
+odh-dashboard
+operate-first-twitter
+operate-first.github.io
+opfcli
+schema-store
+SRE
+sre-apprenticeship
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>support
+template
+toolbox
+workshop-apps
+amqp-client
+ansible-role-ansible_bastion
+ansible-role-firewall_facts
+ansible-role-freeipa
+ansible-role-httpd
+ansible-role-ipa_facts
+ansible-role-mariadb
+ansible-role-openssh
+ansible-role-polyinst_tmp
+ansible-role-rsyslog
+ansible-role-salt_transport
+ansible-role-selinux
+ansible-role-swap_file
+ansible-role-web_builder
+apps.fp.o
+comminfra-docs-sle-template
+community-website
+event-tools
+github-pluto-feeds
+github-pluto-moderate-posts
+jekyll-haml
+middleman-planet
+middleman-springboard
+moderated_planet_prototype
+mountpoint
+mw2md
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>posse-tos-logos
+Practical-OSS-Exploration-textbook
+project-presos
+rh-events
+s2i-golang
+s2i-middleman
+sensor
+strapping-mediawiki
+tos-repository
+twitter-stats
+DO180-apps
+documentation
+how-do-I-documentation
+nlp-tweet-sentiments
+notebook-samples
+odh-s2i-project-cookiecutter
+odh-s2i-project-simple
+odh-s2i-scripts
+pilot-test-code
+postgres-operator-examples
+pricingnbs
+pytorch-diabetes
+pytorch-openvino
+pytorch-openvino-1
+RHSummit2019
+test-repo-lb
+testGPUs
+tgtaegdfg
+weather_data_elyra_pipeline_example
+welly-geoscience
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sandiego
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># store the repos into a list</span>
+<span class="n">repos</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">get_user</span><span class="p">()</span><span class="o">.</span><span class="n">get_repos</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">repo</span> <span class="o">=</span> <span class="n">repos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">raw_data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;id&#39;: 269347258, &#39;node_id&#39;: &#39;MDEwOlJlcG9zaXRvcnkyNjkzNDcyNTg=&#39;, &#39;name&#39;: &#39;ai-ci&#39;, &#39;full_name&#39;: &#39;AICoE/ai-ci&#39;, &#39;private&#39;: True, &#39;owner&#39;: {&#39;login&#39;: &#39;AICoE&#39;, &#39;id&#39;: 33660954, &#39;node_id&#39;: &#39;MDEyOk9yZ2FuaXphdGlvbjMzNjYwOTU0&#39;, &#39;avatar_url&#39;: &#39;https://avatars.githubusercontent.com/u/33660954?v=4&#39;, &#39;gravatar_id&#39;: &#39;&#39;, &#39;url&#39;: &#39;https://api.github.com/users/AICoE&#39;, &#39;html_url&#39;: &#39;https://github.com/AICoE&#39;, &#39;followers_url&#39;: &#39;https://api.github.com/users/AICoE/followers&#39;, &#39;following_url&#39;: &#39;https://api.github.com/users/AICoE/following{/other_user}&#39;, &#39;gists_url&#39;: &#39;https://api.github.com/users/AICoE/gists{/gist_id}&#39;, &#39;starred_url&#39;: &#39;https://api.github.com/users/AICoE/starred{/owner}{/repo}&#39;, &#39;subscriptions_url&#39;: &#39;https://api.github.com/users/AICoE/subscriptions&#39;, &#39;organizations_url&#39;: &#39;https://api.github.com/users/AICoE/orgs&#39;, &#39;repos_url&#39;: &#39;https://api.github.com/users/AICoE/repos&#39;, &#39;events_url&#39;: &#39;https://api.github.com/users/AICoE/events{/privacy}&#39;, &#39;received_events_url&#39;: &#39;https://api.github.com/users/AICoE/received_events&#39;, &#39;type&#39;: &#39;Organization&#39;, &#39;site_admin&#39;: False}, &#39;html_url&#39;: &#39;https://github.com/AICoE/ai-ci&#39;, &#39;description&#39;: &#39;This is a continuous integration of a machine learning stack.&#39;, &#39;fork&#39;: False, &#39;url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci&#39;, &#39;forks_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/forks&#39;, &#39;keys_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/keys{/key_id}&#39;, &#39;collaborators_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/collaborators{/collaborator}&#39;, &#39;teams_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/teams&#39;, &#39;hooks_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/hooks&#39;, &#39;issue_events_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/issues/events{/number}&#39;, &#39;events_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/events&#39;, &#39;assignees_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/assignees{/user}&#39;, &#39;branches_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/branches{/branch}&#39;, &#39;tags_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/tags&#39;, &#39;blobs_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/git/blobs{/sha}&#39;, &#39;git_tags_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/git/tags{/sha}&#39;, &#39;git_refs_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/git/refs{/sha}&#39;, &#39;trees_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/git/trees{/sha}&#39;, &#39;statuses_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/statuses/{sha}&#39;, &#39;languages_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/languages&#39;, &#39;stargazers_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/stargazers&#39;, &#39;contributors_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/contributors&#39;, &#39;subscribers_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/subscribers&#39;, &#39;subscription_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/subscription&#39;, &#39;commits_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/commits{/sha}&#39;, &#39;git_commits_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/git/commits{/sha}&#39;, &#39;comments_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/comments{/number}&#39;, &#39;issue_comment_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/issues/comments{/number}&#39;, &#39;contents_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/contents/{+path}&#39;, &#39;compare_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/compare/{base}...{head}&#39;, &#39;merges_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/merges&#39;, &#39;archive_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/{archive_format}{/ref}&#39;, &#39;downloads_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/downloads&#39;, &#39;issues_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/issues{/number}&#39;, &#39;pulls_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/pulls{/number}&#39;, &#39;milestones_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/milestones{/number}&#39;, &#39;notifications_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/notifications{?since,all,participating}&#39;, &#39;labels_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/labels{/name}&#39;, &#39;releases_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/releases{/id}&#39;, &#39;deployments_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/deployments&#39;, &#39;created_at&#39;: &#39;2020-06-04T11:57:35Z&#39;, &#39;updated_at&#39;: &#39;2020-06-18T14:31:13Z&#39;, &#39;pushed_at&#39;: &#39;2020-06-04T12:35:39Z&#39;, &#39;git_url&#39;: &#39;git://github.com/AICoE/ai-ci.git&#39;, &#39;ssh_url&#39;: &#39;git@github.com:AICoE/ai-ci.git&#39;, &#39;clone_url&#39;: &#39;https://github.com/AICoE/ai-ci.git&#39;, &#39;svn_url&#39;: &#39;https://github.com/AICoE/ai-ci&#39;, &#39;homepage&#39;: None, &#39;size&#39;: 18, &#39;stargazers_count&#39;: 0, &#39;watchers_count&#39;: 0, &#39;language&#39;: None, &#39;has_issues&#39;: True, &#39;has_projects&#39;: True, &#39;has_downloads&#39;: True, &#39;has_wiki&#39;: False, &#39;has_pages&#39;: False, &#39;forks_count&#39;: 0, &#39;mirror_url&#39;: None, &#39;archived&#39;: True, &#39;disabled&#39;: False, &#39;open_issues_count&#39;: 0, &#39;license&#39;: {&#39;key&#39;: &#39;gpl-3.0&#39;, &#39;name&#39;: &#39;GNU General Public License v3.0&#39;, &#39;spdx_id&#39;: &#39;GPL-3.0&#39;, &#39;url&#39;: &#39;https://api.github.com/licenses/gpl-3.0&#39;, &#39;node_id&#39;: &#39;MDc6TGljZW5zZTk=&#39;}, &#39;allow_forking&#39;: True, &#39;is_template&#39;: False, &#39;topics&#39;: [], &#39;visibility&#39;: &#39;private&#39;, &#39;forks&#39;: 0, &#39;open_issues&#39;: 0, &#39;watchers&#39;: 0, &#39;default_branch&#39;: &#39;master&#39;, &#39;permissions&#39;: {&#39;admin&#39;: False, &#39;maintain&#39;: False, &#39;push&#39;: False, &#39;triage&#39;: False, &#39;pull&#39;: True}, &#39;temp_clone_token&#39;: &#39;ANBG5EOH3FCCKYDZ36QXS6TBSZ6AE&#39;, &#39;organization&#39;: {&#39;login&#39;: &#39;AICoE&#39;, &#39;id&#39;: 33660954, &#39;node_id&#39;: &#39;MDEyOk9yZ2FuaXphdGlvbjMzNjYwOTU0&#39;, &#39;avatar_url&#39;: &#39;https://avatars.githubusercontent.com/u/33660954?v=4&#39;, &#39;gravatar_id&#39;: &#39;&#39;, &#39;url&#39;: &#39;https://api.github.com/users/AICoE&#39;, &#39;html_url&#39;: &#39;https://github.com/AICoE&#39;, &#39;followers_url&#39;: &#39;https://api.github.com/users/AICoE/followers&#39;, &#39;following_url&#39;: &#39;https://api.github.com/users/AICoE/following{/other_user}&#39;, &#39;gists_url&#39;: &#39;https://api.github.com/users/AICoE/gists{/gist_id}&#39;, &#39;starred_url&#39;: &#39;https://api.github.com/users/AICoE/starred{/owner}{/repo}&#39;, &#39;subscriptions_url&#39;: &#39;https://api.github.com/users/AICoE/subscriptions&#39;, &#39;organizations_url&#39;: &#39;https://api.github.com/users/AICoE/orgs&#39;, &#39;repos_url&#39;: &#39;https://api.github.com/users/AICoE/repos&#39;, &#39;events_url&#39;: &#39;https://api.github.com/users/AICoE/events{/privacy}&#39;, &#39;received_events_url&#39;: &#39;https://api.github.com/users/AICoE/received_events&#39;, &#39;type&#39;: &#39;Organization&#39;, &#39;site_admin&#39;: False}, &#39;network_count&#39;: 0, &#39;subscribers_count&#39;: 2}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get the &#39;main&#39; branch and print the raw data</span>
+<span class="n">branch</span> <span class="o">=</span> <span class="n">repo</span><span class="o">.</span><span class="n">get_branch</span><span class="p">(</span><span class="s2">&quot;master&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">raw_data</span><span class="p">)</span>
+<span class="c1"># get the first commit item form commits</span>
+<span class="n">commit</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">repo</span><span class="o">.</span><span class="n">get_commits</span><span class="p">():</span>
+    <span class="n">commit</span> <span class="o">=</span> <span class="n">c</span>
+    <span class="k">break</span> <span class="c1"># we break here to only have the first iteration</span>
+<span class="c1"># print the commit raw data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">commit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;name&#39;: &#39;master&#39;, &#39;commit&#39;: {&#39;sha&#39;: &#39;9e6126b2d656a5b4d10be766c2ac26de8f0b5970&#39;, &#39;node_id&#39;: &#39;MDY6Q29tbWl0MjY5MzQ3MjU4OjllNjEyNmIyZDY1NmE1YjRkMTBiZTc2NmMyYWMyNmRlOGYwYjU5NzA=&#39;, &#39;commit&#39;: {&#39;author&#39;: {&#39;name&#39;: &#39;Christoph Görn&#39;, &#39;email&#39;: &#39;goern@redhat.com&#39;, &#39;date&#39;: &#39;2020-06-04T12:35:39Z&#39;}, &#39;committer&#39;: {&#39;name&#39;: &#39;GitHub&#39;, &#39;email&#39;: &#39;noreply@github.com&#39;, &#39;date&#39;: &#39;2020-06-04T12:35:39Z&#39;}, &#39;message&#39;: &#39;Create README.md&#39;, &#39;tree&#39;: {&#39;sha&#39;: &#39;be9ce2a6023143021a97ea7870b36e2778820d77&#39;, &#39;url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/git/trees/be9ce2a6023143021a97ea7870b36e2778820d77&#39;}, &#39;url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/git/commits/9e6126b2d656a5b4d10be766c2ac26de8f0b5970&#39;, &#39;comment_count&#39;: 0, &#39;verification&#39;: {&#39;verified&#39;: True, &#39;reason&#39;: &#39;valid&#39;, &#39;signature&#39;: &#39;-----BEGIN PGP SIGNATURE-----\n\nwsBcBAABCAAQBQJe2OqbCRBK7hj4Ov3rIwAAdHIIAG9YRUGNxylsSclKatAXkiX8\n+wDS4B5naoRoARIJ/ZbAAhzXpfOJy4lOY8u+PYjYHSaBYbqhuwMX61O5sw9l3zRl\ngBbfu5EkLCduT1xQhZwBfP2IwhZ/bRSa+HPwidqkbLrVJIAiuRdphmxaHdEhIXE4\nmHM/jh+rjtbuGH2R3rSime+n38wcfFKsnWckqUka00QOVAIuQS2zFsZLmiHNBWpl\nFn3ezQMLUxMO9+N1flJngD7CaQOgUCOkLguiJ4B+VJPcmMtyccv0bUqnCbIumBJT\nZzZ5k9pF+I4zdAqg5xHRuraaz5Qw++09125SsmHnx96dywkeYDzka61eifbyy1s=\n=qTwR\n-----END PGP SIGNATURE-----\n&#39;, &#39;payload&#39;: &#39;tree be9ce2a6023143021a97ea7870b36e2778820d77\nparent df4c2cfb9e0fab6c27dbf019219cfe9e8f35cea9\nauthor Christoph Görn &lt;goern@redhat.com&gt; 1591274139 +0200\ncommitter GitHub &lt;noreply@github.com&gt; 1591274139 +0200\n\nCreate README.md&#39;}}, &#39;url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/commits/9e6126b2d656a5b4d10be766c2ac26de8f0b5970&#39;, &#39;html_url&#39;: &#39;https://github.com/AICoE/ai-ci/commit/9e6126b2d656a5b4d10be766c2ac26de8f0b5970&#39;, &#39;comments_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/commits/9e6126b2d656a5b4d10be766c2ac26de8f0b5970/comments&#39;, &#39;author&#39;: {&#39;login&#39;: &#39;goern&#39;, &#39;id&#39;: 260331, &#39;node_id&#39;: &#39;MDQ6VXNlcjI2MDMzMQ==&#39;, &#39;avatar_url&#39;: &#39;https://avatars.githubusercontent.com/u/260331?v=4&#39;, &#39;gravatar_id&#39;: &#39;&#39;, &#39;url&#39;: &#39;https://api.github.com/users/goern&#39;, &#39;html_url&#39;: &#39;https://github.com/goern&#39;, &#39;followers_url&#39;: &#39;https://api.github.com/users/goern/followers&#39;, &#39;following_url&#39;: &#39;https://api.github.com/users/goern/following{/other_user}&#39;, &#39;gists_url&#39;: &#39;https://api.github.com/users/goern/gists{/gist_id}&#39;, &#39;starred_url&#39;: &#39;https://api.github.com/users/goern/starred{/owner}{/repo}&#39;, &#39;subscriptions_url&#39;: &#39;https://api.github.com/users/goern/subscriptions&#39;, &#39;organizations_url&#39;: &#39;https://api.github.com/users/goern/orgs&#39;, &#39;repos_url&#39;: &#39;https://api.github.com/users/goern/repos&#39;, &#39;events_url&#39;: &#39;https://api.github.com/users/goern/events{/privacy}&#39;, &#39;received_events_url&#39;: &#39;https://api.github.com/users/goern/received_events&#39;, &#39;type&#39;: &#39;User&#39;, &#39;site_admin&#39;: False}, &#39;committer&#39;: {&#39;login&#39;: &#39;web-flow&#39;, &#39;id&#39;: 19864447, &#39;node_id&#39;: &#39;MDQ6VXNlcjE5ODY0NDQ3&#39;, &#39;avatar_url&#39;: &#39;https://avatars.githubusercontent.com/u/19864447?v=4&#39;, &#39;gravatar_id&#39;: &#39;&#39;, &#39;url&#39;: &#39;https://api.github.com/users/web-flow&#39;, &#39;html_url&#39;: &#39;https://github.com/web-flow&#39;, &#39;followers_url&#39;: &#39;https://api.github.com/users/web-flow/followers&#39;, &#39;following_url&#39;: &#39;https://api.github.com/users/web-flow/following{/other_user}&#39;, &#39;gists_url&#39;: &#39;https://api.github.com/users/web-flow/gists{/gist_id}&#39;, &#39;starred_url&#39;: &#39;https://api.github.com/users/web-flow/starred{/owner}{/repo}&#39;, &#39;subscriptions_url&#39;: &#39;https://api.github.com/users/web-flow/subscriptions&#39;, &#39;organizations_url&#39;: &#39;https://api.github.com/users/web-flow/orgs&#39;, &#39;repos_url&#39;: &#39;https://api.github.com/users/web-flow/repos&#39;, &#39;events_url&#39;: &#39;https://api.github.com/users/web-flow/events{/privacy}&#39;, &#39;received_events_url&#39;: &#39;https://api.github.com/users/web-flow/received_events&#39;, &#39;type&#39;: &#39;User&#39;, &#39;site_admin&#39;: False}, &#39;parents&#39;: [{&#39;sha&#39;: &#39;df4c2cfb9e0fab6c27dbf019219cfe9e8f35cea9&#39;, &#39;url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/commits/df4c2cfb9e0fab6c27dbf019219cfe9e8f35cea9&#39;, &#39;html_url&#39;: &#39;https://github.com/AICoE/ai-ci/commit/df4c2cfb9e0fab6c27dbf019219cfe9e8f35cea9&#39;}]}, &#39;_links&#39;: {&#39;self&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/branches/master&#39;, &#39;html&#39;: &#39;https://github.com/AICoE/ai-ci/tree/master&#39;}, &#39;protected&#39;: False, &#39;protection&#39;: {&#39;enabled&#39;: False, &#39;required_status_checks&#39;: {&#39;enforcement_level&#39;: &#39;off&#39;, &#39;contexts&#39;: []}}, &#39;protection_url&#39;: &#39;https://api.github.com/repos/AICoE/ai-ci/branches/master/protection&#39;}
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Commit(sha=&quot;9e6126b2d656a5b4d10be766c2ac26de8f0b5970&quot;)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">commits_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s2">&quot;repo_id&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+<span class="s2">&quot;commit_sha&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">sha</span><span class="p">,</span>
+<span class="s2">&quot;commit_message&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">message</span><span class="p">,</span>
+<span class="s2">&quot;commit_author_name&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="s2">&quot;commit_author_email&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+<span class="s2">&quot;commit_author_date&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
+<span class="s2">&quot;commit_committer_name&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">committer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="s2">&quot;commit_committer_email&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">committer</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+<span class="s2">&quot;commit_committer_date&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">committer</span><span class="o">.</span><span class="n">date</span><span class="p">,</span>
+<span class="s2">&quot;author_login&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">login</span><span class="p">,</span>
+<span class="s2">&quot;author_id&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+<span class="s2">&quot;author_avatar_url&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">avatar_url</span><span class="p">,</span>
+<span class="s2">&quot;author_type&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+<span class="s2">&quot;committer_login&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">committer</span><span class="o">.</span><span class="n">login</span><span class="p">,</span>
+<span class="s2">&quot;committer_id&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">committer</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+<span class="s2">&quot;committer_avatar_url&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">committer</span><span class="o">.</span><span class="n">avatar_url</span><span class="p">,</span>
+<span class="s2">&quot;committer_type&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">committer</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+<span class="s2">&quot;stats_addtions&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">additions</span><span class="p">,</span>
+<span class="s2">&quot;stats_deletions&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">deletions</span><span class="p">,</span>
+<span class="s2">&quot;stats_total&quot;</span><span class="p">:</span> <span class="n">commit</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">total</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#file_data = {</span>
+<span class="c1">#&quot;id&quot;: ,</span>
+<span class="c1">#&quot;commit_id&quot;: ,</span>
+<span class="c1">#&quot;repo_id&quot;: ,</span>
+<span class="c1">#&quot;file_name&quot;: ,</span>
+<span class="c1">#&quot;addtions&quot;: ,</span>
+<span class="c1">#&quot;deletions&quot;: ,</span>
+<span class="c1">#&quot;changes&quot;: ,</span>
+<span class="c1">#&quot;status&quot;:</span>
+<span class="c1">#}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">repo_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+<span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="s2">&quot;owner&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">owner</span><span class="o">.</span><span class="n">login</span><span class="p">,</span>
+<span class="s2">&quot;fullname&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">full_name</span><span class="p">,</span>
+<span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+<span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
+<span class="s2">&quot;pushed_date&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">pushed_at</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()),</span>
+<span class="s2">&quot;created_date&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()),</span>
+<span class="s2">&quot;updated_date&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">updated_at</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()),</span>
+<span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+<span class="s2">&quot;stars&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">stargazers_count</span><span class="p">,</span>
+<span class="s2">&quot;forks&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">forks_count</span><span class="p">,</span>
+<span class="s2">&quot;watchers&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">watchers_count</span><span class="p">,</span>
+<span class="s2">&quot;language&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+<span class="s2">&quot;topics&quot;</span><span class="p">:</span> <span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">get_topics</span><span class="p">()),</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">branch_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">repo</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+<span class="s2">&quot;repo_id&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">repo</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+<span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">branch</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+<span class="s2">&quot;commit_sha&quot;</span><span class="p">:</span> <span class="n">branch</span><span class="o">.</span><span class="n">commit</span><span class="o">.</span><span class="n">sha</span><span class="p">,</span>
+<span class="s2">&quot;protected&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">branch</span><span class="o">.</span><span class="n">protected</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">repo_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">repo_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="n">branch_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">branch_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+<span class="c1">#file_columns = list(file_data.keys())</span>
+<span class="n">commits_columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">commits_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">repo_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">repo_columns</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;INSERT INTO repo </span><span class="si">{0}</span><span class="s2"> VALUES (</span><span class="si">{1}</span><span class="s2">)&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">repo_columns</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>INSERT INTO repo [&#39;id&#39;, &#39;name&#39;, &#39;owner&#39;, &#39;fullname&#39;, &#39;description&#39;, &#39;url&#39;, &#39;pushed_date&#39;, &#39;created_date&#39;, &#39;updated_date&#39;, &#39;size&#39;, &#39;stars&#39;, &#39;forks&#39;, &#39;watchers&#39;, &#39;language&#39;, &#39;topics&#39;] VALUES ([269347258, &#39;ai-ci&#39;, &#39;AICoE&#39;, &#39;AICoE/ai-ci&#39;, &#39;This is a continuous integration of a machine learning stack.&#39;, &#39;https://api.github.com/repos/AICoE/ai-ci&#39;, 1591288539, 1591286255, 1592505073, 18, 0, 0, 0, None, &#39;&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#cursor.execute(query,list)</span>
+
+<span class="c1">#cursor.commit()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cnx</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="01-ddl.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Create the database</p>
+        </div>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Isabel Zimmerman<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
