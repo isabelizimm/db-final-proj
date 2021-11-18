@@ -1,0 +1,8 @@
+format: jb-book
+root: README
+parts:
+  - caption: Getting started
+    chapters:
+    - file: notebooks/01-ddl
+    - file: notebooks/02-load_data
+    
